@@ -1,0 +1,40 @@
+{
+  "name": "undebbies",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run server.ts",
+    "watch": "bun run --watch server.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --fix .",
+    "prettier": "prettier --write ."
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "latest",
+    "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
+    "@types/tmi.js": "^1.8.3",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "bun-types": "latest",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@t3-oss/env-core": "^0.6.1",
+    "@twurple/api": "^7.0.1",
+    "@twurple/auth": "^7.0.1",
+    "axios": "^1.5.0",
+    "class-validator": "^0.14.0",
+    "melper": "^3.1.6",
+    "tmi.js": "^1.8.5",
+    "zod": "^3.22.2"
+  }
+}

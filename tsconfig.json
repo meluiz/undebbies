@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "strict": true,
+    "jsx": "preserve",
+    "lib": ["ESNext"],
+    "target": "ES2022",
+    "module": "ES2022",
+    "composite": true,
+    "skipLibCheck": true,
+    "downlevelIteration": true,
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "experimentalDecorators": true,
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "types": [
+      "bun-types" // add Bun global
+    ],
+    "paths": {
+      "App/*": ["./app/*"],
+      "Foundation/*": ["./foundation/*"],
+      "Start/*": ["./start/*"]
+    }
+  },
+  "include": ["**/*.ts"]
+}
