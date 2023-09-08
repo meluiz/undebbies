@@ -40,11 +40,11 @@ export default class FollowAge implements CommandContract {
 
       let userId = data.tags['user-id']
 
-      // TODO: Check if viewer is the streamer
-
+      // Check if has a viewer argument
       if (viewer) {
         const user = await ctx.users.getUserByName(viewer.replace(/^@/, ''))
 
+        // Check if the user exists
         if (user) {
           userId = user.id
         }
@@ -58,10 +58,12 @@ export default class FollowAge implements CommandContract {
       return follower
     })
 
+    // Check if the follower was found
     if (!follower) {
       return client.say(channel, 'Esse usuário ficou preso no 404! 🔍')
     }
 
+    // Check if the user is the channel
     if (follower.userDisplayName === channel) {
       return client.say(channel, 'O followage para você mesmo é incógnita! 🕵️‍♂️')
     }
