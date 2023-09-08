@@ -27,7 +27,6 @@ export default class FollowAge implements CommandContract {
   public async execute(client: CommandClient, channel: CommandChannel, args: CommandArguments, data: CommandData) {
     // Get the display name and username from command data
     const displayName = data.tags['display-name']?.toLowerCase()
-    const username = data.tags.username
 
     // Check if the display name matches the channel name
     if (displayName && channel === displayName) {
@@ -36,19 +35,40 @@ export default class FollowAge implements CommandContract {
 
     // Get the follower information
     const follower = await Client.api.asUser(Env.get('TWITCH_BOT_ID'), async (ctx) => {
+      const [viewer] = args
       const broadcaster = await ctx.users.getUserByName(channel)
+
+      let userId = data.tags['user-id']
+
+      // TODO: Check if viewer is the streamer
+
+      if (viewer) {
+        const user = await ctx.users.getUserByName(viewer.replace(/^@/, ''))
+
+        if (user) {
+          userId = user.id
+        }
+      }
 
       if (!broadcaster || !data.tags.id) {
         return null
       }
 
-      const follower = await broadcaster.getChannelFollower(data.tags['user-id'] || '')
+      const follower = await broadcaster.getChannelFollower(userId || '')
       return follower
     })
 
+    if (!follower) {
+      return client.say(channel, 'Esse usuário ficou preso no 404! 🔍')
+    }
+
+    if (follower.userDisplayName === channel) {
+      return client.say(channel, 'O followage para você mesmo é incógnita! 🕵️‍♂️')
+    }
+
     // Calculate the follow age
     const now = dayjs()
-    const followedAt = dayjs(follower?.followDate)
+    const followedAt = dayjs(follower.followDate)
     const diffInSeconds = now.diff(followedAt, 'second')
 
     // Define the time units in seconds
@@ -94,6 +114,6 @@ export default class FollowAge implements CommandContract {
     const followedAge = followingAgeParts.join(', ').replace(lastOccurrenceRegex, ' e ')
 
     // Send the follow age message
-    client.say(channel, `${username} segue o(a) ${channel} há ${followedAge}`)
+    client.say(channel, `${follower.userDisplayName} segue o(a) ${channel} há ${followedAge}`)
   }
 }
