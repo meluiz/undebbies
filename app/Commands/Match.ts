@@ -36,14 +36,6 @@ export default class FollowAge implements CommandContract {
 
     const displayName = data.tags['display-name']
 
-    // Fun matcher. 'meluiz' has a high percentage with @Debby_Dev
-
-    if (displayName.toLowerCase() === 'meluiz') {
-      // Generate a random percentage
-      const percentage = Math.floor(Math.random() * (1000 - 100 + 1) + 100)
-      return client.say(channel, getMessage('Debby_Dev', displayName, percentage))
-    }
-
     // Get the list of chatters in the streamer's channel
     const chatters = await Client.api.asUser(Env.get('TWITCH_BOT_ID'), async (ctx) => {
       const streamer = await ctx.users.getUserByName(channel)
@@ -68,18 +60,6 @@ export default class FollowAge implements CommandContract {
     // Get a random matcher and match percentage
     const matcher = chattersFiltered[Math.floor(Math.random() * chattersFiltered.length)]
     const percentage = Math.round(Math.random() * 99) + 1
-
-    // Fun matcher. Streamer with a low percentage when the matcher isn't 'meluiz'
-    if (displayName === channel) {
-      if (matcher.userDisplayName !== 'meluiz') {
-        // Generate a random percentage
-        const percentage = Math.round(Math.random() * 9) + 1
-
-        return client.say(channel, getMessage(matcher.userDisplayName, displayName, percentage))
-      }
-
-      return client.say(channel, getMessage('meluiz', displayName, 100))
-    }
 
     return client.say(channel, getMessage(matcher.userDisplayName, displayName, percentage))
   }
